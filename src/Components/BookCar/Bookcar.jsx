@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import axios from "axios";
 import { useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import Carproducts from '../Carproucts/Car_products';
@@ -16,16 +17,18 @@ function Bookcar() {
 
     const dispatch = useDispatch();
     const getData = async () => {
-        let url = (`https://car-api3-0.onrender.com/carData`)
-        let res = await fetch(url);
+       
+        let res = await fetch('/BookingCars');
         let car_data = await res.json();
-        console.log(car_data);
+        console.log(res.data);
      
         setData(car_data);
         setIsLoading(false);
         const setProductAction=setProducts(car_data);
        
         dispatch(setProductAction)
+      
+        
     }
 
 

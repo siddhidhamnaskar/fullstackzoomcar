@@ -1,9 +1,10 @@
 import { json, Link } from "react-router-dom";
 import "./styles.css";
-import { useRef } from "react";
+import { useRef ,useState} from "react";
 import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+    // const [usersData,setData]=useState([]);
 
     const emailRef = useRef(null);
     const nameRef = useRef(null);
@@ -45,61 +46,49 @@ function SignUp() {
 
         console.log("sign up");
 
-        var goAheadAndSignUp = true;
+      
 
         if (nameRef.current.value.length < 4) {
             nameWarningRef.current.style.display = "block";
-            goAheadAndSignUp = false;
+           
         }
 
         if (passwordRef.current.value.length < 8) {
             passwordSizeWarningRef.current.style.display = "block";
-            goAheadAndSignUp = false;
+           
         }
 
         if (confirmPasswordRef.current.value !== passwordRef.current.value) {
             confirmPasswordWarningRef.current.style.display = "block";
-            goAheadAndSignUp = false;
+          
             console.log("confirm warning");
         }
+        
 
-        if (validate(emailRef.current.value)) {
-            // emailWarningRef.current.style.display = "block";
-
-        }
         else {
-            goAheadAndSignUp = false;
-        }
+            const data={ "name": nameRef.current.value, "email": emailRef.current.value, "password": passwordRef.current.value };
+            fetch('/signup',{
+                method:"POST",
+                headers:{
+                    "Content-type":"application/json"
+                },
+                body:JSON.stringify(data)
+     
+            })
+            .then((res)=>{
+                console.log(res.json());
+                alert("Account Created Successfully !");
+                navigate("/login");
+             
+            })
+            .catch((err)=>{
+                alert("Register Failed");
+            })
 
-        ///////////// email check
-
-        var usersData = JSON.parse(localStorage.getItem("usersData")) || [];
-
-        for (let ind = 0; ind < usersData.length; ind++) {
-            let ele = usersData[ind];
-            if (ele.email === emailRef.current.value) {
-                goAheadAndSignUp = false;
-                emailWarningRef.current.style.display = "block";
-                break;
-            }
-
-        }
-
-
-        ////
-
-        if (goAheadAndSignUp) {
-
-            var usersData = JSON.parse(localStorage.getItem("usersData")) || [];
-
-            usersData.push({ "name": nameRef.current.value, "email": emailRef.current.value, "password": passwordRef.current.value });
-            localStorage.setItem("usersData", JSON.stringify(usersData));
-
-            alert("Account Created Successfully !");
-            navigate("/login");
         }
 
 
+      
     }
 
     return <div>

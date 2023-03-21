@@ -1,10 +1,10 @@
 import "./styles.css";
 import { useNavigate, Link } from "react-router-dom";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 
 function LogInFirst() {
-
+ 
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
 
@@ -12,38 +12,36 @@ function LogInFirst() {
 
     const navigate = useNavigate();
 
-    // if (localStorage.getItem("loggedInUser")) {
-    //     localStorage.removeItem("loggedInUser");
-    //     navigate("/");
-    // }
+    
+    
 
     let logIn = () => {
 
-        console.log("hhh");
+        if(validateEmail(emailRef.current.value))
 
-        var usersData = JSON.parse(localStorage.getItem("usersData")) || [];
-
-        var loggedInSuccessfully = false;
-
-        for (let ind = 0; ind < usersData.length; ind++) {
-            let element = usersData[ind];
-            if (element.email === emailRef.current.value && element.password === passwordRef.current.value) {
-                alert("Logged In Successfully !");
-                localStorage.setItem("loggedInUser", JSON.stringify(element));
-                navigate("/");
-                loggedInSuccessfully = true;
-                break;
-            }
+      {
+        const data={
+            email:emailRef.current.value,
+            password:passwordRef.current.value
         }
 
-        if (loggedInSuccessfully) {
+        fetch('/login',{
+            method:"POST",
+            headers:{
+                "Content-type":"application/json"
+            },
+            body:JSON.stringify(data)
+ 
+        }).then((res)=>{
+           alert("login Succesfull");
+           navigate("/");
+        }).catch((err)=>{
+            
+          alert("Please Signup");
+        })
+    }
+    
 
-        } else {
-            credentialsWarningRef.current.style.display = "block";
-            if (validateEmail(emailRef.current.value)) {
-
-            }
-        }
 
     }
 

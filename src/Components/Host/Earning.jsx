@@ -52,7 +52,7 @@ function Earning(){
               
             "image_url":url,
    "name": name,
-   "price": "2580",
+   "price": 2580,
    "trans": "Manual",
    "fuel": fuel,
    "seat": seat,
@@ -61,7 +61,7 @@ function Earning(){
        
          }
 
-       fetch(`https://car-api3-0.onrender.com/carData`,{
+       fetch('/BookingCars/post',{
            method:"POST",
            headers:{
                "Content-type":"application/json"
