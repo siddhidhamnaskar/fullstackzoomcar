@@ -61,7 +61,7 @@ function Earning(){
        
          }
 
-       fetch('/BookingCars/post',{
+       fetch('https://zoomcarbackend.onrender.com/BookingCars/post',{
            method:"POST",
            headers:{
                "Content-type":"application/json"

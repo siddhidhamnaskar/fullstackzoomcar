@@ -67,7 +67,8 @@ function SignUp() {
 
         else {
             const data={ "name": nameRef.current.value, "email": emailRef.current.value, "password": passwordRef.current.value };
-            fetch('/signup',{
+            fetch('https://zoomcarbackend.onrender.com/signup',{
+            
                 method:"POST",
                 headers:{
                     "Content-type":"application/json"

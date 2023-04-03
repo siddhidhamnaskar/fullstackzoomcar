@@ -5,9 +5,13 @@ import { useDispatch } from 'react-redux';
 import Carproducts from '../Carproucts/Car_products';
 import Filter from '../Filters/Filter';
 import Footer from '../Footer/Footer';
+
+
 import "./BookCar.css";
 import HomeNavbar from '../Components-Navbar/HomeNavbar';
-  import {setProducts} from "../../store/Actions/Action"
+  import {setProducts} from "../../store/Actions/Action";
+
+
 
 function Bookcar() {
     const [data, setData] = useState([]);
@@ -16,17 +20,28 @@ function Bookcar() {
     const [isLoading, setIsLoading] = useState(true);
 
     const dispatch = useDispatch();
-    const getData = async () => {
+    const getData =async() => {
+        const Header = new Headers({ "Access-Control-Allow-Origin": "*" });
        
-        let res = await fetch('/BookingCars');
-        let car_data = await res.json();
-        console.log(res.data);
-     
-        setData(car_data);
-        setIsLoading(false);
-        const setProductAction=setProducts(car_data);
+        let res=await fetch("https://zoomcarbackend.onrender.com/BookingCars");
+
+        let car_data=await res.json();
+             
+         
+         console.log(car_data);
+            
+            setData(car_data);
+            setIsLoading(false);
+            const setProductAction=setProducts(car_data)
+           
+            dispatch(setProductAction)
+
+         
+        
+
+
        
-        dispatch(setProductAction)
+       
       
         
     }
